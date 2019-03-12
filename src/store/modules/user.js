@@ -50,8 +50,8 @@ const user = {
       return new Promise((resolve, reject) => {
         loginByUsername(username, userInfo.password).then(response => {
           const data = response.data
-          commit('SET_TOKEN', data.token)
-          setToken(response.data.token)
+          commit('SET_TOKEN', data.data)
+          setToken(response.data.data)
           resolve()
         }).catch(error => {
           reject(error)
@@ -62,12 +62,14 @@ const user = {
     // 获取用户信息
     GetUserInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
+        console.log(state)
         getUserInfo(state.token).then(response => {
           // 由于mockjs 不支持自定义状态码只能这样hack
-          if (!response.data) {
-            reject('Verification failed, please login again.')
-          }
+          // if (!response.data) {
+          //   reject('Verification failed, please login again.')
+          // }
           const data = response.data
+          data.roles = ['admin', 'editor']
 
           if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
             commit('SET_ROLES', data.roles)
@@ -75,8 +77,8 @@ const user = {
             reject('getInfo: roles must be a non-null array!')
           }
 
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
+          commit('SET_NAME', data.data.username)
+          commit('SET_AVATAR', '/img/default-avatar-80x80.gif')
           commit('SET_INTRODUCTION', data.introduction)
           resolve(response)
         }).catch(error => {
