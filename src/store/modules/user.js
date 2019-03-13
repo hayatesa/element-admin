@@ -49,9 +49,8 @@ const user = {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         loginByUsername(username, userInfo.password).then(response => {
-          const data = response.data
-          commit('SET_TOKEN', data.data)
-          setToken(response.data.data)
+          commit('SET_TOKEN', response.data)
+          setToken(response.data)
           resolve()
         }).catch(error => {
           reject(error)
@@ -62,7 +61,6 @@ const user = {
     // 获取用户信息
     GetUserInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        console.log(state)
         getUserInfo(state.token).then(response => {
           // 由于mockjs 不支持自定义状态码只能这样hack
           // if (!response.data) {
@@ -77,8 +75,8 @@ const user = {
             reject('getInfo: roles must be a non-null array!')
           }
 
-          commit('SET_NAME', data.data.username)
-          commit('SET_AVATAR', '/img/default-avatar-80x80.gif')
+          commit('SET_NAME', data.name)
+          commit('SET_AVATAR', data.avatar)
           commit('SET_INTRODUCTION', data.introduction)
           resolve(response)
         }).catch(error => {
@@ -92,8 +90,8 @@ const user = {
     //   return new Promise((resolve, reject) => {
     //     commit('SET_CODE', code)
     //     loginByThirdparty(state.status, state.email, state.code).then(response => {
-    //       commit('SET_TOKEN', response.data.token)
-    //       setToken(response.data.token)
+    //       commit('SET_TOKEN', data.token)
+    //       setToken(data.token)
     //       resolve()
     //     }).catch(error => {
     //       reject(error)
@@ -104,7 +102,7 @@ const user = {
     // 登出
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
+        logout().then(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
           removeToken()

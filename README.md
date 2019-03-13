@@ -27,3 +27,6 @@ yarn run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### Project base on
+[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
