@@ -2,11 +2,11 @@ import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
-import conf from '@/config/appConfig'
+// import conf from '@/config/appConfig'
 
 // create an axios instance
 const service = axios.create({
-  baseURL: conf.API_ADDRESS, // api 的 base_url
+  // baseURL: conf.AUTH_ADDRESS, // api 的 base_url
   timeout: 0 // request timeout
 })
 
@@ -38,7 +38,7 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-    if (!res.success) {
+    if (res.status) {
       Message({
         message: res.message || 'Failed',
         type: 'error',

@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import prefix from '@/config/apiAddress'
 
 export function loginByUsername(username, password) {
   const data = {
@@ -6,7 +7,7 @@ export function loginByUsername(username, password) {
     password
   }
   return request({
-    url: '/auth/token',
+    url: `${prefix.AUTH_ADDRESS}/auth/token`,
     method: 'post',
     data
   })
@@ -14,14 +15,14 @@ export function loginByUsername(username, password) {
 
 export function logout() {
   return request({
-    url: '/auth/logout',
+    url: `${prefix.AUTH_ADDRESS}/auth/logout`,
     method: 'post'
   })
 }
 
 export function getUserInfo() {
   return request({
-    url: '/user/info',
+    url: `${prefix.SYS_ADDRESS}/user/info`,
     method: 'get'
   })
 }
